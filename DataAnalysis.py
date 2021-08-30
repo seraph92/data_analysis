@@ -742,7 +742,58 @@ def test_interpolate():
     print(f"df_intp_values = [\n{df_intp_values}\n]")
     print(f"df.interpolate() = [\n{df.interpolate()}\n]")
     print(f"df.interpolate(method='values', limit=1) = [\n{df.interpolate(method='values', limit=1)}\n]")
+    print(f"df.interpolate(method='values', limit=1, limit_direction='backward') = [\n{df.interpolate(method='values', limit=1, limit_direction='backward')}\n]")
     
+def test_replace():
+    ser = pd.Series([1, 2, 3, 4, np.nan])
+    print(f"ser = [\n{ser}\n]")
+    print(f"ser.replace(2, 20) = [\n{ser.replace(2, 20)}\n]")
+    print(f"ser.replace(np.nan, 5) = [\n{ser.replace(np.nan, 5)}\n]")
+    
+    rep_map = ser.replace({1: 6, 2: 7, 3: 8, 4: 9, np.nan: 10})
+    print(f"rep_map = [\n{rep_map}\n]")
+
+    df = pd.DataFrame(
+        {
+            'C1': ['a_old', 'b', 'c', 'd', 'e'],
+            'C2': [1, 2, 3, 4, 5],
+            'C3': [6, 7, 8, 9, np.nan]
+        }
+    )
+
+    print(f"df = [\n{df}\n]")
+
+    df_rep = df.replace({'C1': 'a_old'}, {'C1': 'a_new'})
+    print(f"df_rep = [\n{df_rep}\n]")
+
+    print(f"df.replace({{'C3': np.nan}}, {{'C3': 10}}) = [\n{df.replace({'C3': np.nan}, {'C3': 10})}\n]")
+    
+
+def test_dup():
+    data = {
+        'key1':['a', 'b', 'b', 'c', 'c'],
+        'key2':['v', 'w', 'w', 'x', 'y'],
+        'col':[1, 2, 3, 4, 5]
+    }
+
+    df = pd.DataFrame(
+        data, 
+        columns=['key1','key2','col']
+    )
+
+    print(f"df = [\n{df}\n]")
+
+    print(f"df.duplicated(['key1']) = [\n{df.duplicated(['key1'])}\n]")
+
+    print(f"df.duplicated(['key1', 'key2']) = [\n{df.duplicated(['key1', 'key2'])}\n]")
+    
+    print(f"df.duplicated(['key1'], keep='last') = [\n{df.duplicated(['key1'], keep='last')}\n]")
+
+    print(f"df.duplicated(['key1'], keep=False) = [\n{df.duplicated(['key1'], keep=False)}\n]")
+
+    print(f"df.drop_duplicates(['key1'], keep='last') = [\n{df.drop_duplicates(['key1'], keep='last')}\n]")
+    
+
 
 
 
@@ -759,4 +810,6 @@ if __name__ == '__main__':
     #test_calc_null()
     #test_fill_na()
     #test_drop_na()
-    test_interpolate()
+    #test_interpolate()
+    #test_replace()
+    test_dup()
