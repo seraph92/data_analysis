@@ -393,6 +393,358 @@ def test_df_merge():
     )
     print(f"df_merge_how_outer_indicator = [\n{df_merge_how_outer_indicator}\n]")
 
+    df_merge_how_outer_indicator_info = pd.merge(
+        df_left, 
+        df_right, 
+        how='outer', 
+        on='KEY',
+        indicator='indicator_info',
+    )
+    print(f"df_merge_how_outer_indicator_info = [\n{df_merge_how_outer_indicator_info}\n]")
+    print(f"\n")
+
+    df_left_2 = pd.DataFrame(
+        {
+            'KEY': ['K0', 'K1', 'K2', 'K3'],
+            'A': ['A0', 'A1', 'A2', 'A3'],
+            'B': ['B0', 'B1', 'B2', 'B3'],
+            'C': ['C0', 'C1', 'C2', 'C3']
+        }
+    )
+
+    df_right_2 = pd.DataFrame(
+        {
+            'KEY': ['K0', 'K1', 'K2', 'K3'],
+            'B': ['B0_2', 'B1_2', 'B2_2', 'B3_2'],
+            'C': ['C0_2', 'C1_2', 'C2_2', 'C3_2'],
+            'D': ['D0_2', 'D1_2', 'D2_2', 'D3_3']
+        }
+    )
+    print(f"df_left_2 = [\n{df_left_2}\n]")
+    print(f"df_right_2 = [\n{df_right_2}\n]")
+
+    df_merge_suffix = pd.merge(
+        df_left_2, df_right_2, 
+        how='inner', 
+        on='KEY', 
+        suffixes=('_left', '_right')
+    )
+    print(f"df_merge_suffix = [\n{df_merge_suffix}\n]")
+
+    df_merge_default = pd.merge(
+        df_left_2, df_right_2, 
+        how='inner', 
+        on='KEY'
+    )
+    print(f"df_merge_default = [\n{df_merge_default}\n]")
+
+
+def test_df_merge_index():
+    df_left = pd.DataFrame(
+        {
+            'A': ['A0', 'A1', 'A2', 'A3'],
+            'B': ['B0', 'B1', 'B2', 'B3']
+        },
+        index=['K0', 'K1', 'K2', 'K3']
+    )
+
+    df_right = pd.DataFrame(
+        {
+            'C': ['C2', 'C3', 'C4', 'C5'],
+            'D': ['D2', 'D3', 'D4', 'D5']
+        },
+        index=['K2', 'K3', 'K4', 'K5']
+    )
+    print(f"df_left = [\n{df_left}\n]")
+    print(f"df_right = [\n{df_right}\n]")
+
+    df_merge_left_index = pd.merge(
+        df_left, df_right,
+        left_index=True,
+        right_index=True,
+        how='left'
+    )
+    print(f"df_merge_left_index = [\n{df_merge_left_index}\n]")
+
+    df_merge_right_index = pd.merge(
+        df_left, df_right,
+        left_index=True,
+        right_index=True,
+        how='right'
+    )
+    print(f"df_merge_right_index = [\n{df_merge_right_index}\n]")
+
+    df_join_right = df_left.join(df_right, how='right')
+    print(f"df_join_right = [\n{df_join_right}\n]")
+
+    df_merge_inner_join = pd.merge(
+        df_left, df_right,
+        left_index=True,
+        right_index=True,
+        how='inner'
+    )
+    print(f"df_merge_inner_join = [\n{df_merge_inner_join}\n]")
+
+    df_inner_join = df_left.join(df_right, how='inner')
+    print(f"df_inner_join = [\n{df_inner_join}\n]")
+
+    df_merge_outer_join = pd.merge(
+        df_left, df_right,
+        left_index=True,
+        right_index=True,
+        how='outer'
+    )
+    print(f"df_merge_outer_join = [\n{df_merge_outer_join}\n]")
+
+    df_outer_join = df_left.join(df_right, how='outer')
+    print(f"df_outer_join = [\n{df_outer_join}\n]")
+
+    df_left_2 = pd.DataFrame(
+        {
+            'KEY': ['K0', 'K1', 'K2', 'K3'],
+            'A': ['A0', 'A1', 'A2', 'A3'],
+            'B': ['B0', 'B1', 'B2', 'B3']
+        }
+    )
+
+    df_right_2 = pd.DataFrame(
+        {
+            'C': ['C2', 'C3', 'C4', 'C5'],
+            'D': ['D2', 'D3', 'D4', 'D5']
+        },
+        index=['K2', 'K3', 'K4', 'K5']
+    )
+    print(f"df_left_2 = [\n{df_left_2}\n]")
+    print(f"df_right_2 = [\n{df_right_2}\n]")
+
+    df_merge_key_index_left = pd.merge(
+        df_left_2, df_right_2,
+        left_on='KEY',
+        right_index=True,
+        how='left'
+    )
+    print(f"df_merge_key_index_left = [\n{df_merge_key_index_left}\n]")
+
+
+def test_df_isnull():
+    df_left = pd.DataFrame(
+        {
+            'KEY': ['K0', 'K1', 'K2', 'K3'],
+            'A': ['A0', 'A1', 'A2', 'A3'],
+            'B': [0.5, 2.2, 3.6, 0.4]
+        }
+    )
+
+    df_right = pd.DataFrame(
+        {
+            'KEY': ['K2', 'K3', 'K4', 'K5'],
+            'C': ['C2', 'C3', 'C4', 'C5'],
+            'D': ['D2', 'D3', 'D4', 'D5']
+        }
+    )
+    print(f"df_left = [\n{df_left}\n]")
+    print(f"df_right = [\n{df_right}\n]")
+
+    df_all = pd.merge(
+        df_left, df_right, 
+        how='outer', 
+        on='KEY'
+    )
+    print(f"df_all = [\n{df_all}\n]")
+
+    df_isnull_fn = pd.isnull(df_all)
+    print(f"df_isnull_fn = [\n{df_isnull_fn}\n]")
+
+    df_isnull_method = df_all.isnull()
+    print(f"df_isnull_method = [\n{df_isnull_method}\n]")
+
+    df_notnull_fn = pd.notnull(df_all)
+    print(f"df_notnull_fn = [\n{df_notnull_fn}\n]")
+
+    df_notnull_method = df_all.notnull()
+    print(f"df_notnull_method = [\n{df_notnull_method}\n]")
+
+    print(f"df_all = [\n{df_all}\n]")
+
+    df_all.loc[[0,1], 'A':'B'] = None
+    #df_all.loc[0:1, 'A':'B'] = None
+    #df_all.loc[0:1, 'A'] = None
+    #df_all.loc[0:1, 'B'] = None
+    print(f"df_all = [\n{df_all}\n]")
+
+    df_ab_isnull = df_all[['A', 'B']].isnull()
+    print(f"df_ab_isnull = [\n{df_ab_isnull}\n]")
+
+    df_isnull_cnt = df_all.isnull().sum()
+    print(f"df_isnull_cnt = [\n{df_isnull_cnt}\n]")
+
+    df_a_isnull_cnt = df_all['A'].isnull().sum()
+    print(f"df_a_isnull_cnt = [\n{df_a_isnull_cnt}\n]")
+    
+    df_notnull_cnt = df_all.notnull().sum()
+    print(f"df_notnull_cnt = [\n{df_notnull_cnt}\n]")
+
+    print(f"df_all = [\n{df_all}\n]")
+    df_all['NaN_cnt'] = df_all.isnull().sum(1)
+    df_all['NotNull_cnt'] = df_all.notnull().sum(1)
+
+    print(f"df_all = [\n{df_all}\n]")
+
+def test_calc_null():
+    df = pd.DataFrame(
+        np.arange(10).reshape(5,2),
+        index=['a', 'b', 'c', 'd', 'e'],
+        columns=['C1', 'C2']
+    )
+    print(f"df = [\n{df}\n]")
+
+    df.loc[['b', 'e'], ['C1']] = None
+    df.loc[['b', 'c'], ['C2']] = None
+
+    print(f"df = [\n{df}\n]")
+
+    print(f"df.sum() = [\n{df.sum()}\n]")
+    print(f"df['C1'] = [\n{df['C1']}\n]")
+    print(f"df['C1'].sum() = [\n{df['C1'].sum()}\n]")
+    print(f"df['C1'].cumsum() = [\n{df['C1'].cumsum()}\n]")
+    print(f"df.mean() = [\n{df.mean()}\n]")
+    print(f"df.mean(1) = [\n{df.mean(1)}\n]")
+    print(f"df.std() = [\n{df.std()}\n]")
+    print(f"\n")
+    print(f"df = [\n{df}\n]")
+
+    df['C3'] = df['C1'] + df['C2']
+    print(f"df = [\n{df}\n]")
+
+    df_2 = pd.DataFrame(
+        {
+            'C1' : [1, 1, 1, 1, 1],
+            'C4' : [1, 1, 1, 1, 1]
+        },
+        index=['a', 'b', 'c', 'd', 'e']
+    )
+    print(f"df_2 = [\n{df_2}\n]")
+
+    print(f"df + df_2 = [\n{df + df_2}\n]")
+
+def test_fill_na():
+    df = pd.DataFrame(
+        np.random.randn(5, 3),
+        columns=['C1', 'C2', 'C3']
+    )
+    print(f"df = [\n{df}\n]")
+
+    df.iloc[0, 0] = None
+    df.loc[1, ['C1', 'C3']] = None
+    df.loc[2, ['C2']] = np.nan
+    df.loc[3, ['C2']] = np.nan
+    df.loc[4, ['C3']] = np.nan
+
+    print(f"df = [\n{df}\n]")
+
+    df_0 = df.fillna(0)
+    print(f"df_0 = [\n{df_0}\n]")
+
+    df_missing = df.fillna("missing")
+    print(f"df_missing = [\n{df_missing}\n]")
+
+    print(f"df = [\n{df}\n]")
+
+    
+    print(f"df.fillna(method='ffill') = [\n{df.fillna(method='ffill')}\n]")
+    print(f"df.fillna(method='pad') = [\n{df.fillna(method='pad')}\n]")
+    print(f"df.fillna(method='bfill') = [\n{df.fillna(method='bfill')}\n]")
+    print(f"df.fillna(method='ffill', limit=1) = [\n{df.fillna(method='ffill', limit=1)}\n]")
+    print(f"df.fillna(method='bfill', limit=1) = [\n{df.fillna(method='bfill', limit=1)}\n]")
+    
+    print(f"df = [\n{df}\n]")
+    print(f"df.mean() = [\n{df.mean()}\n]")
+    print(f"df.fillna(df.mean()) = [\n{df.fillna(df.mean())}\n]")
+    print(f"df.where(pd.notnull(df), df.mean(), axis='columns') = [\n{df.where(pd.notnull(df), df.mean(), axis='columns')}\n]")
+
+    print(f"df.mean()['C1':'C2'] = [\n{df.mean()['C1':'C2']}\n]")
+    print(f"df.fillna(df.mean()['C1':'C2']) = [\n{df.fillna(df.mean()['C1':'C2'])}\n]")
+
+    df_2 = pd.DataFrame(
+        {
+            'C1': [1, 2, 3, 4, 5],
+            'C2': [6, 7, 8, 9, 10]
+        }
+    )
+    print(f"df_2 = [\n{df_2}\n]")
+    df_2.loc[[1, 3], ['C2']] = np.nan
+    print(f"df_2 = [\n{df_2}\n]")
+
+    df_2['C2_New'] = np.where(pd.notnull(df_2['C2']) == True, df_2['C2'], df_2['C1'])
+    print(f"df_2 = [\n{df_2}\n]")
+
+    for i in df_2.index:
+        if pd.notnull(df_2.loc[i, 'C2']) == True:
+            df_2.loc[i, 'C2_New_2'] = df_2.loc[i, 'C2']
+        else:
+            df_2.loc[i, 'C2_New_2'] = df_2.loc[i, 'C1']
+
+    print(f"df_2 = [\n{df_2}\n]")
+
+
+def test_drop_na():
+    df = pd.DataFrame(
+        np.random.randn(5, 4),
+        columns=['C1', 'C2', 'C3', 'C4']
+    )
+    print(f"df = [\n{df}\n]")
+
+    df.loc[[0,1], 'C1'] = None
+    df.loc[2, 'C2'] = np.nan
+
+    print(f"df = [\n{df}\n]")
+
+    df_dop_row = df.dropna(axis=0)
+    print(f"df_dop_row = [\n{df_dop_row}\n]")
+
+    df_drop_column = df.dropna(axis=1)
+    print(f"df_dop_column = [\n{df_drop_column}\n]")
+
+    print(f"df = [\n{df}\n]")
+    print(f"df['C1'].dropna() = [\n{df['C1'].dropna()}\n]")
+
+    print(f"df[['C1', 'C2', 'C3']].dropna() = [\n{df[['C1', 'C2', 'C3']].dropna()}\n]")
+    print(f"df[['C1', 'C2', 'C3']].dropna(axis=0) = [\n{df[['C1', 'C2', 'C3']].dropna(axis=0)}\n]")
+    print(f"df[['C1', 'C2', 'C3']].dropna(axis=1) = [\n{df[['C1', 'C2', 'C3']].dropna(axis=1)}\n]")
+    print(f"df.loc[[2,4],['C1', 'C2', 'C3']].dropna(axis=0) = [\n{df.loc[[2,4],['C1', 'C2', 'C3']].dropna(axis=0)}\n]")
+    
+
+def test_interpolate():
+    datestrs = ['12/1/2020', '12/03/2020', '12/04/2020', '12/10/2020']
+    dates = pd.to_datetime(datestrs)
+    print(f"dates = [\n{dates}\n]")
+
+    ts = pd.Series([1, np.nan, np.nan, 10], index=dates)
+    print(f"ts = [\n{ts}\n]")
+
+    ts_intp_linear = ts.interpolate()
+    print(f"ts_intp_linear = [\n{ts_intp_linear}\n]")
+
+    print(f"ts = [\n{ts}\n]")
+
+    ts_intp_time = ts.interpolate(method='time')
+    print(f"ts_intp_time = [\n{ts_intp_time}\n]")
+
+    df = pd.DataFrame(
+        {
+            'C1': [1, 2, np.nan, np.nan, 5],
+            'C2': [6, 8, 10, np.nan, 20]
+        }
+    )
+    print(f"df = [\n{df}\n]")
+
+    df_intp_values = df.interpolate(method='values')
+    print(f"df_intp_values = [\n{df_intp_values}\n]")
+    print(f"df.interpolate() = [\n{df.interpolate()}\n]")
+    print(f"df.interpolate(method='values', limit=1) = [\n{df.interpolate(method='values', limit=1)}\n]")
+    
+
+
 
 if __name__ == '__main__':
     #test_df()
@@ -401,4 +753,10 @@ if __name__ == '__main__':
     #test_df_date_index()
     #test_df_concat()
     #test_df_sr_concat()
-    test_df_merge()
+    #test_df_merge()
+    #test_df_merge_index()
+    #test_df_isnull()
+    #test_calc_null()
+    #test_fill_na()
+    #test_drop_na()
+    test_interpolate()
