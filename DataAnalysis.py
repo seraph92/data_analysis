@@ -794,6 +794,38 @@ def test_dup():
     print(f"df.drop_duplicates(['key1'], keep='last') = [\n{df.drop_duplicates(['key1'], keep='last')}\n]")
     
 
+def test_df_unique():
+    df = pd.DataFrame(
+        {
+            'A': ['A1', 'A1', 'A2', 'A2', 'A3', 'A3'],
+            'B': ['B1', 'B1', 'B1', 'B1', 'B2', np.nan],
+            'C': [1, 1, 3, 4, 4, 4]
+        }
+    )
+
+    print(f"df = [\n{df}\n]")
+    print(f"df['A'].unique() = [\n{df['A'].unique()}\n]")
+    print(f"df['B'].unique() = [\n{df['B'].unique()}\n]")
+    print(f"df['C'].unique() = [\n{df['C'].unique()}\n]")
+    print(f"\n")
+
+    print(f"df = [\n{df}\n]")
+    print(f"df['A'].value_counts() = [\n{df['A'].value_counts()}\n]")
+    print(f"df['B'].value_counts() = [\n{df['B'].value_counts()}\n]")
+    print(f"df['C'].value_counts() = [\n{df['C'].value_counts()}\n]")
+    print(f"df['C'].value_counts(normalize=True) = [\n{df['C'].value_counts(normalize=True)}\n]")
+    print(f"\n")
+
+    print(f"df = [\n{df}\n]")
+    print(f"df['C'].value_counts(sort=True) = [\n{df['C'].value_counts(sort=True)}\n]")
+    
+
+    
+
+    
+
+
+
 
 
 
@@ -812,4 +844,5 @@ if __name__ == '__main__':
     #test_drop_na()
     #test_interpolate()
     #test_replace()
-    test_dup()
+    #test_dup()
+    test_df_unique()
