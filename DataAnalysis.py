@@ -1,7 +1,8 @@
+#import scipy.stats as ss
 import numpy as np
 import pandas as pd
 from pandas.core.frame import DataFrame as df
-
+from sklearn.preprocessing import StandardScaler, RobustScaler
 
 def test_csv():
     #csv_test = pd.read_csv('./인천광역시_연수구_문화재 현황_2020.05.03.csv', engine='python')
@@ -818,15 +819,47 @@ def test_df_unique():
 
     print(f"df = [\n{df}\n]")
     print(f"df['C'].value_counts(sort=True) = [\n{df['C'].value_counts(sort=True)}\n]")
+    print(f"df['C'].value_counts(sort=True, ascending=True) = [\n{df['C'].value_counts(sort=True, ascending=True)}\n]")
+    print(f"df['C'].value_counts(sort=False) = [\n{df['C'].value_counts(sort=False)}\n]")
+    print(f"\n")
+
+    print(f"df = [\n{df}\n]")
+    print(f"df['B'].value_counts(dropna=True) = [\n{df['B'].value_counts(dropna=True)}\n]")
+    print(f"df['B'].value_counts(dropna=False) = [\n{df['B'].value_counts(dropna=False)}\n]")
+    print(f"\n")
+
+    print(f"df = [\n{df}\n]")
+    print(f"df['C'].value_counts(bins=[0, 1, 2, 3, 4, 5], sort=False) = [\n{df['C'].value_counts(bins=[0, 1, 2, 3, 4, 5], sort=False)}\n]")
+
+    out = pd.cut(df['C'], bins=[0, 1, 2, 3, 4, 5])
+    print(f"out = [\n{out}\n]")
+    print(f"pd.value_counts(out) = [\n{pd.value_counts(out)}\n]")
     
+def test_standardization():
+    print(f"\n")
+    data = np.random.randint(30, size=(6, 5))
+    print(f"data = [\n{data}\n]")
+
+    # z = (x - Mean)/STD
+    data_standadized_np = (data - np.mean(data, axis=0)) / np.std(data, axis=0)
+    print(f"data_standadized_np = [\n{data_standadized_np}\n]")
+
+    print(f"np.mean(data_standadized_np, axis=0) = [\n{np.mean(data_standadized_np, axis=0)}\n]")
+    print(f"np.std(data_standadized_np, axis=0) = [\n{np.std(data_standadized_np, axis=0)}\n]")
+    print(f"np.std(data_standadized_np, axis=1) = [\n{np.std(data_standadized_np, axis=1)}\n]")
+
+    arr = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    print(f"arr = [\n{arr}\n]")
+    print(f"np.mean(arr) = [\n{np.mean(arr)}\n]")
+    print(f"np.std(arr) = [\n{np.std(arr)}\n]")
+    print(f"np.var(arr) = [\n{np.var(arr)}\n]")
+
+    #data_standadized_ss = ss.zscore(data)
+    #print(f"data_standadized_ss = [\n{data_standadized_ss}\n]")
+
+
 
     
-
-    
-
-
-
-
 
 
 if __name__ == '__main__':
@@ -845,4 +878,5 @@ if __name__ == '__main__':
     #test_interpolate()
     #test_replace()
     #test_dup()
-    test_df_unique()
+    #test_df_unique()
+    test_standardization()
